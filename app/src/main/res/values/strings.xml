@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TW Student</string>
+    <string name="notifiaction_content_title">Lesson Title</string>
+    <string name="notification_content_text">Lesson Content</string>
+</resources>
