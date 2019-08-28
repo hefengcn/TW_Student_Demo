@@ -19,23 +19,20 @@ import com.google.gson.Gson;
 import java.io.DataOutputStream;
 import java.io.OutputStream;
 
-import static com.example.twstudent.MainActivity.TW_SEND;
+import static com.example.twstudent.MainActivity.ACTION_PUSH_LESSON;
+import static com.example.twstudent.MainActivity.EXTRA_LESSON_INFO;
 
 public class MyService extends Service {
     private static final int NOTIFICATION_ID = 101;
-    private static final String CHANNEL_ID = "TW";
-
-    public MyService() {
-    }
+    private static final String CHANNEL_ID = "foreground service channel";
 
     @Override
     public void onCreate() {
         super.onCreate();
         Notification notification = getNotification();
         startForeground(NOTIFICATION_ID, notification);
-        IntentFilter filter = new IntentFilter(TW_SEND);
+        IntentFilter filter = new IntentFilter(ACTION_PUSH_LESSON);
         registerReceiver(mReceiver, filter);
-
     }
 
     private Notification getNotification() {
@@ -62,11 +59,10 @@ public class MyService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction() != null) {
-                String str = intent.getStringExtra("gson_string");
+            if (intent.getAction() != null && intent.getAction().equals(ACTION_PUSH_LESSON)) {
+                String str = intent.getStringExtra(EXTRA_LESSON_INFO);
                 parsingJsonData(str);
                 pushOutLeftScreen();
-
             }
         }
 
