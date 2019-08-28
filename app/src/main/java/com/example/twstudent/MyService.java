@@ -64,25 +64,46 @@ public class MyService extends Service {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction() != null) {
                 String str = intent.getStringExtra("gson_string");
-                Gson gson = new Gson();
-                Lesson lesson = gson.fromJson(str, Lesson.class);
-                Log.d(TAG, "lesson.getGrade() =" +  lesson.getGrade());
-                Log.d(TAG, "lesson.getCode() =" +  lesson.getCode());
-                Log.d(TAG, "lesson.getName() =" +  lesson.getName());
-                Log.d(TAG, "lesson.getSubject() =" +  lesson.getSubject());
-                Log.d(TAG, "lesson.getTeacher() =" +  lesson.getTeacher());
-                Log.d(TAG, "lesson.getUrl() =" +  lesson.getUrl());
+                parsingJsonData(str);
+                pushOutLeftScreen();
 
-
-                execShellCmd("input keyevent 3");//home5
-                execShellCmd("input swipe 200 250 500 250");
             }
+        }
+
+        private void parsingJsonData(String str) {
+            Gson gson = new Gson();
+            Lesson lesson = gson.fromJson(str, Lesson.class);
+            Log.d(TAG, "lesson.getGrade() =" + lesson.getGrade());
+            Log.d(TAG, "lesson.getCode() =" + lesson.getCode());
+            Log.d(TAG, "lesson.getName() =" + lesson.getName());
+            Log.d(TAG, "lesson.getSubject() =" + lesson.getSubject());
+            Log.d(TAG, "lesson.getTeacher() =" + lesson.getTeacher());
+            Log.d(TAG, "lesson.getUrl() =" + lesson.getUrl());
+        }
+
+        private void pushOutLeftScreen() {
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        execShellCmd("input keyevent 3");//home
+                        Thread.sleep(500);
+                        execShellCmd("input swipe 200 250 500 250");
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            t.start();
         }
     };
 
     private void execShellCmd(String cmd) {
         try {
-            Process process = Runtime.getRuntime().exec("su");
+            //Process process = Runtime.getRuntime().exec("su");
+            Process process = Runtime.getRuntime().exec("sh");
+
             OutputStream outputStream = process.getOutputStream();
             DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
             dataOutputStream.writeBytes(cmd);

@@ -1,6 +1,6 @@
 package com.example.twstudent;
 
-public class Lesson {
+class Lesson {
     private String grade;
     private String subject;
     private String code;
@@ -8,51 +8,51 @@ public class Lesson {
     private String teacher;
     private String url;
 
-    public String getGrade() {
+    String getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    void setGrade(String grade) {
         this.grade = grade;
     }
 
-    public String getSubject() {
+    String getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    void setSubject(String subject) {
         this.subject = subject;
     }
 
-    public String getCode() {
+    String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    void setCode(String code) {
         this.code = code;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public String getTeacher() {
+    String getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(String teacher) {
+    void setTeacher(String teacher) {
         this.teacher = teacher;
     }
 
-    public String getUrl() {
+    String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    void setUrl(String url) {
         this.url = url;
     }
 }

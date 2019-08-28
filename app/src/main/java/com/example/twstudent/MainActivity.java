@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         Lesson lesson = new Lesson();
         lesson.setGrade("初一");
         lesson.setCode("c1lsp05");
+        lesson.setSubject("历史");
         lesson.setName("千古一帝秦始皇");
         lesson.setTeacher("王宗琦");
-        lesson.setSubject("历史");
         lesson.setUrl("https://static.chinaedu.com/commonplayer/play.html?uid=bf0d46c6-57e9-4729-a04f-0e444a4a3a93&c=1\" frameborder=\"0\" align=\"");
         String str = gson.toJson(lesson);
         Intent intent = new Intent(TW_SEND);
