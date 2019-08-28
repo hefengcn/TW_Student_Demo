@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -18,7 +17,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String CHANNEL_ID = "channel_id";
+    public static final String CHANNEL_ID = "study_channel_id";
     public static final String ACTION_PUSH_LESSON = "com.tab.tw.push";
     public static final String EXTRA_LESSON_INFO = "lesson_info";
 
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(new Intent(MainActivity.this, MyService.class));
         } else {
@@ -39,17 +39,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendNotification(String info) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId = "study_channel_id";
-            CharSequence channelName = "Study Channel";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-            channel.enableLights(true);
-            channel.setLightColor(Color.RED);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
-
         Intent intent = new Intent(ACTION_PUSH_LESSON);
         intent.putExtra(EXTRA_LESSON_INFO, info);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 22, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -64,6 +53,20 @@ public class MainActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         int notificationId = 201;
         notificationManager.notify(notificationId, notification);
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence channelName = "Study Channel";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, importance);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
+        }
     }
 
     private String getLessonInfo() {

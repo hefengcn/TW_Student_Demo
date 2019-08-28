@@ -66,19 +66,26 @@ public class MyService extends Service {
             }
         }
 
-        private void parsingJsonData(String str) {
-            Gson gson = new Gson();
-            Lesson lesson = gson.fromJson(str, Lesson.class);
-            Log.d(TAG, "lesson.getGrade() =" + lesson.getGrade());
-            Log.d(TAG, "lesson.getCode() =" + lesson.getCode());
-            Log.d(TAG, "lesson.getName() =" + lesson.getName());
-            Log.d(TAG, "lesson.getSubject() =" + lesson.getSubject());
-            Log.d(TAG, "lesson.getTeacher() =" + lesson.getTeacher());
-            Log.d(TAG, "lesson.getUrl() =" + lesson.getUrl());
+        private void parsingJsonData(final String str) {
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    Gson gson = new Gson();
+                    Lesson lesson = gson.fromJson(str, Lesson.class);
+                    Log.d(TAG, "lesson.getGrade() =" + lesson.getGrade());
+                    Log.d(TAG, "lesson.getCode() =" + lesson.getCode());
+                    Log.d(TAG, "lesson.getName() =" + lesson.getName());
+                    Log.d(TAG, "lesson.getSubject() =" + lesson.getSubject());
+                    Log.d(TAG, "lesson.getTeacher() =" + lesson.getTeacher());
+                    Log.d(TAG, "lesson.getUrl() =" + lesson.getUrl());
+                }
+            }.start();
+
         }
 
         private void pushOutLeftScreen() {
-            Thread t = new Thread() {
+            new Thread() {
                 @Override
                 public void run() {
                     super.run();
@@ -90,8 +97,7 @@ public class MyService extends Service {
                         e.printStackTrace();
                     }
                 }
-            };
-            t.start();
+            }.start();
         }
     };
 
